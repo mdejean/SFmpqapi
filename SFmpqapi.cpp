@@ -25,33 +25,6 @@ struct SFMPQAPIMODULE {
 	~SFMPQAPIMODULE();
 } SFMpqApi;
 
-#ifndef _WIN32
-#define SFMPQ_STATIC
-#endif
-
-#if defined(SFMPQ_STATIC) || !defined(SFMPQAPI_EXPORTS)
-#define DllMain SFMpqMain
-
-struct SFMPQLIBMODULE {
-	SFMPQLIBMODULE();
-	~SFMPQLIBMODULE();
-} SFMpqLib;
-
-BOOL APIENTRY DllMain(HINSTANCE hInstDLL, DWORD  ul_reason_for_call, LPVOID lpReserved);
-
-SFMPQLIBMODULE::SFMPQLIBMODULE()
-{
-	SFMpqMain(0,DLL_PROCESS_ATTACH,0);
-}
-
-SFMPQLIBMODULE::~SFMPQLIBMODULE()
-{
-	SFMpqDestroy();
-	SFMpqMain(0,DLL_PROCESS_DETACH,0);
-}
-
-#endif
-
 LCID LocaleID = 0;
 BOOL SFMpqInit = FALSE;
 HINSTANCE hStorm = 0;
@@ -122,7 +95,7 @@ BOOL AddToInternalListing(MPQHANDLE hMPQ, LPCSTR lpFileName);
 BOOL RemoveFromInternalListing(MPQHANDLE hMPQ, LPCSTR lpFileName);
 DWORD DetectFileSeedEx(MPQARCHIVE * mpqOpenArc, HASHTABLEENTRY * lpHashEntry, LPSTR * lplpFileName);
 
-BOOL APIENTRY DllMain( HINSTANCE hInstDLL, 
+extern "C" BOOL APIENTRY SFMpqMain( HINSTANCE hInstDLL, 
                        DWORD  ul_reason_for_call, 
                        LPVOID lpReserved
 					 )

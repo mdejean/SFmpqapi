@@ -1,6 +1,7 @@
 ; License information for this code is in license.txt
 
 EXPORTS
+	DllMain=SFMpqMain
 	MpqInitialize=MpqInitialize @1
 	MpqGetVersion=MpqGetVersion @2
 	MpqGetVersionString=MpqGetVersionString @3
